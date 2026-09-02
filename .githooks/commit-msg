@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Strip bot/agent attribution trailers so commits stay attributed to the human author.
+set -euo pipefail
+
+msg_file="$1"
+tmp="$(mktemp)"
+
+# Drop Cursor / common bot Co-authored-by / Signed-off-by lines.
+sed -E \
+  -e '/^Co-authored-by:[[:space:]]*Cursor[[:space:]]*<cursoragent@cursor\.com>[[:space:]]*$/Id' \
+  -e '/^Co-authored-by:[[:space:]]*.*<[^>]*cursoragent[^>]*>[[:space:]]*$/Id' \
+  -e '/^Co-authored-by:[[:space:]]*.*\[bot\][[:space:]]*</Id' \
+  -e '/^Signed-off-by:[[:space:]]*Cursor[[:space:]]*</Id' \
+  "$msg_file" | awk '
+    BEGIN { blank = 0 }
+    /^$/ {
+      blank++
+      if (blank <= 1) print
+      next
+    }
+    { blank = 0; print }
+  ' > "$tmp"
+
+mv "$tmp" "$msg_file"
