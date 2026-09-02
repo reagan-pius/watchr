@@ -1,0 +1,84 @@
+============================================================
+  INSTAGRAM EXPORT ANALYSER
+============================================================
+
+  Export folder:
+  ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01
+
+  Note: results only reflect this ZIP snapshot. Instagram can omit or delay data;
+  if the app disagrees, request a new download (Settings → Download your information).
+
+👤  Your profile info:
+   Username                  me
+   Name                      ***
+   Bio                       fixture account for tests
+   Private account           False
+
+── CONNECTIONS ──────────────────────────────────────────
+
+📊  Connection summary:
+   Followers in export       3
+   Followers (app insights)  10  ⚠ export incomplete
+   Export coverage           30% of app-reported followers
+   Following in export       4
+   Mutuals (export-only — follower list incomplete)     2
+   Mutuals incl. curation    3  (+1 confirmed via curation)
+
+   📐  App-derived counts (export insights: 10 followers / 4 following vs 3 mutuals):
+      You follow → don't follow back:        4 − 3 = 1
+      They follow you → you don't follow back: 10 − 3 = 7
+      (Counts only — the export cannot say WHICH accounts; verify in-app
+       or with --curate to name them.)
+
+   ⚠  Follower-side lists below are partial — Instagram often omits most
+      followers from the download. Compare totals above before trusting
+      mutual / follower counts against the app.
+
+🧹  Data cleaning (don't-follow-back list):
+   Raw export claim          2
+   Pending follow requests   −1
+   Manually confirmed        −1
+   Unverified remainder      0
+   ⚠  Follower export is incomplete, so the remainder likely contains
+      mutuals missing from the follower files. Verify each account in
+      the app and add confirmed followers to curated_followers.txt
+      (see docs/data-cleaning.md).
+
+👻  People you follow who DON'T follow you back (0, export-only — follower list incomplete):
+
+⏳  Pending follow requests — not yet accepted, excluded above (1):
+   • user_004
+
+🙈  Followers you DON'T follow back (1, export-only — follower list incomplete):
+   • user_003
+
+🤝  Mutuals (3, export-only — follower list incomplete):
+   (+1 promoted — confirmed via curation; raw export mutuals: 2)
+   • user_001
+   • user_002
+   • user_005
+
+── ACTIVITY ─────────────────────────────────────────────
+
+📸  Posts by month (1 total):
+   2023-11  █ 1
+  [!] None of these files exist under your export folder:
+      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/media/stories.json
+      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/content/stories.json
+  [!] File not found: ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/likes/liked_posts.json
+  [!] File not found: ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/likes/liked_comments.json
+  [!] File not found: ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/comments/post_comments_1.json
+  [!] None of these files exist under your export folder:
+      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/logged_information/recent_searches/profile_searches.json
+      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/recent_searches/account_searches.json
+
+── SECURITY ─────────────────────────────────────────────
+  [!] None of these files exist under your export folder:
+      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/security_and_login_information/login_and_profile_creation/login_activity.json
+      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/security_and_login_information/login_and_account_creation/login_activity.json
+
+── ADS & TRACKING ───────────────────────────────────────
+  [!] None of these files exist under your export folder:
+      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/ads_interests.json
+      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/other_categories_used_to_reach_you.json
+  [!] File not found: ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/advertisers_using_your_activity_or_information.json

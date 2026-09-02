@@ -1,0 +1,20 @@
+# Personal data from the Instagram export — never commit these
+instagram-*/
+output.txt
+.env
+.DS_Store
+
+# Python / virtual-environ artifacts — never commit
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+.coverage
+htmlcov/
+
+# Curation state — per-export-user; never commit so clones start clean
+/curated_followers.txt
+/curated_nonfollowers.txt
+/curation_meta.json
+/.cache/
