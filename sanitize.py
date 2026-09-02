@@ -8,6 +8,7 @@ Masks by default:
   • IP addresses             → 105.16.***.***
   • "Date of birth" lines    → ****-**-**
   • export folder names      → instagram-***-2026-04-02-AbCdEf
+  • fixture path parents     → ~/tests/fixtures/... (host-stable for CI)
   • account handles          → user_001, user_002, … ("me" for your own account)
                                 (only when the export folder is available;
                                  disable with --keep-handles)
@@ -41,6 +42,11 @@ DOB_LINE_RE = re.compile(r"(?m)^(\s*Date of birth\s+).+$")
 NAME_LINE_RE = re.compile(r"(?m)^(\s*Name\s+).+$")
 
 EXPORT_FOLDER_RE = re.compile(r"(instagram-)[^/\s]+?(-\d{4}-\d{2}-\d{2}-\w+)")
+
+# Collapse machine-specific parents so golden files match across hosts:
+#   ~/analysis/tests/fixtures/...  →  ~/tests/fixtures/...
+#   ~/work/watchr/watchr/tests/fixtures/...  →  ~/tests/fixtures/...
+FIXTURE_PATH_RE = re.compile(r"~/(?:[^\n]*?/)?(tests/fixtures/\S+)")
 
 
 def _find_export_dir(explicit: str | None) -> Path | None:
@@ -117,6 +123,7 @@ def sanitize(text: str, export_dir: Path | None, keep_handles: bool) -> str:
     text = DOB_LINE_RE.sub(r"\1****-**-**", text)
     text = NAME_LINE_RE.sub(r"\1***", text)
     text = EXPORT_FOLDER_RE.sub(r"\1***\2", text)
+    text = FIXTURE_PATH_RE.sub(r"~/\1", text)
 
     if not keep_handles and export_dir:
         own, others = collect_handles(export_dir)

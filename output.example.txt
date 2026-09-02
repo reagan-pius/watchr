@@ -3,10 +3,12 @@
 ============================================================
 
   Export folder:
-  ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01
+  ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01
 
   Note: results only reflect this ZIP snapshot. Instagram can omit or delay data;
   if the app disagrees, request a new download (Settings → Download your information).
+  Personal details (email, phone, date of birth, IPs) are redacted —
+  use --no-redact to see raw values.
 
 👤  Your profile info:
    Username                  me
@@ -63,22 +65,22 @@
 📸  Posts by month (1 total):
    2023-11  █ 1
   [!] None of these files exist under your export folder:
-      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/media/stories.json
-      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/content/stories.json
-  [!] File not found: ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/likes/liked_posts.json
-  [!] File not found: ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/likes/liked_comments.json
-  [!] File not found: ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/comments/post_comments_1.json
+      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/media/stories.json
+      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/content/stories.json
+  [!] File not found: ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/likes/liked_posts.json
+  [!] File not found: ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/likes/liked_comments.json
+  [!] File not found: ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/comments/post_comments_1.json
   [!] None of these files exist under your export folder:
-      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/logged_information/recent_searches/profile_searches.json
-      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/recent_searches/account_searches.json
+      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/logged_information/recent_searches/profile_searches.json
+      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/recent_searches/account_searches.json
 
 ── SECURITY ─────────────────────────────────────────────
   [!] None of these files exist under your export folder:
-      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/security_and_login_information/login_and_profile_creation/login_activity.json
-      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/security_and_login_information/login_and_account_creation/login_activity.json
+      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/security_and_login_information/login_and_profile_creation/login_activity.json
+      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/security_and_login_information/login_and_account_creation/login_activity.json
 
 ── ADS & TRACKING ───────────────────────────────────────
   [!] None of these files exist under your export folder:
-      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/ads_interests.json
-      • ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/other_categories_used_to_reach_you.json
-  [!] File not found: ~/analysis/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/advertisers_using_your_activity_or_information.json
+      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/ads_interests.json
+      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/other_categories_used_to_reach_you.json
+  [!] File not found: ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/advertisers_using_your_activity_or_information.json
