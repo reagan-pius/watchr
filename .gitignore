@@ -1,5 +1,7 @@
 # Personal data from the Instagram export — never commit these
 instagram-*/
+!tests/fixtures/**/instagram-*/
+!tests/fixtures/**/instagram-*/**
 output.txt
 .env
 .DS_Store

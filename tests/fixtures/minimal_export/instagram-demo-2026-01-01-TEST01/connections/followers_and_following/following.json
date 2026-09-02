@@ -1,0 +1,40 @@
+{
+  "relationships_following": [
+    {
+      "title": "alice_demo",
+      "string_list_data": [
+        {
+          "href": "https://www.instagram.com/_u/alice_demo",
+          "timestamp": 1700000101
+        }
+      ]
+    },
+    {
+      "title": "bob_demo",
+      "string_list_data": [
+        {
+          "href": "https://www.instagram.com/_u/bob_demo",
+          "timestamp": 1700000102
+        }
+      ]
+    },
+    {
+      "title": "dave_demo",
+      "string_list_data": [
+        {
+          "href": "https://www.instagram.com/_u/dave_demo",
+          "timestamp": 1700000103
+        }
+      ]
+    },
+    {
+      "title": "eve_demo",
+      "string_list_data": [
+        {
+          "href": "https://www.instagram.com/_u/eve_demo",
+          "timestamp": 1700000104
+        }
+      ]
+    }
+  ]
+}
