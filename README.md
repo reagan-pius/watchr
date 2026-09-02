@@ -54,6 +54,13 @@ who doesn't follow you back, and who you don't follow back:
 
 > Results reflect the ZIP snapshot only. See [docs/counts-explained.md](docs/counts-explained.md) when numbers differ from the app.
 
+### Visual output map
+
+![Watchr output map](docs/assets/watchr-output-map.png)
+
+Minimal map of the Connections report: core follower/following sets, run-to-run
+delta output, and the cleaning pipeline from raw claim to final buckets.
+
 ## CLI
 
 ```bash
