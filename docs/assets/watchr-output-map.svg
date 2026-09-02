@@ -1,56 +1,147 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
-  <title id="title">Watchr Connections Output Map</title>
-  <desc id="desc">Minimal shape-based map showing followers, following, mutuals, and cleaned output buckets with run-to-run deltas.</desc>
-  <rect x="0" y="0" width="1200" height="760" fill="#ffffff"/>
-
-  <!-- frame -->
-  <rect x="40" y="40" width="1120" height="680" rx="12" fill="none" stroke="#e7e9ec" stroke-width="1"/>
-  <text x="80" y="96" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="34" font-weight="500" fill="#171a1f" letter-spacing="-0.4">Watchr Output Map</text>
-  <text x="80" y="126" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="16" font-weight="400" fill="#5e636e">What users see in the connections report</text>
-
-  <!-- venn -->
-  <text x="80" y="182" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="15" fill="#5e636e">Core sets</text>
-  <circle cx="332" cy="318" r="170" fill="none" stroke="#2b5cff" stroke-width="2"/>
-  <circle cx="510" cy="318" r="170" fill="none" stroke="#cfd3da" stroke-width="2"/>
-
-  <text x="232" y="232" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="20" font-weight="500" fill="#171a1f">FOLLOWERS</text>
-  <text x="485" y="232" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="20" font-weight="500" fill="#171a1f">FOLLOWING</text>
-  <text x="377" y="326" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="22" font-weight="500" fill="#171a1f">MUTUALS</text>
-
-  <text x="212" y="368" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="14" fill="#5e636e">you don't follow back</text>
-  <text x="520" y="368" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="14" fill="#5e636e">raw not-following-back claim</text>
-
-  <!-- since last run -->
-  <rect x="730" y="176" width="380" height="170" rx="10" fill="#ffffff" stroke="#e7e9ec" stroke-width="1"/>
-  <text x="760" y="214" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="16" font-weight="500" fill="#171a1f">Since last run</text>
-  <line x1="760" y1="228" x2="1080" y2="228" stroke="#e7e9ec" stroke-width="1"/>
-  <text x="760" y="266" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="14" fill="#2b5cff">+ Followed you</text>
-  <text x="760" y="302" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="14" fill="#5e636e">- Unfollowed you</text>
-  <text x="760" y="330" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="12" fill="#5e636e">computed from per-export follower snapshot</text>
-
-  <!-- cleaning pipeline -->
-  <text x="80" y="530" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="15" fill="#5e636e">Cleaning pipeline</text>
-
-  <rect x="80" y="558" width="190" height="76" rx="8" fill="#ffffff" stroke="#e7e9ec" stroke-width="1"/>
-  <text x="98" y="589" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#171a1f">Raw claim</text>
-  <text x="98" y="612" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="12" fill="#5e636e">following - followers</text>
-
-  <rect x="318" y="558" width="190" height="76" rx="8" fill="#ffffff" stroke="#e7e9ec" stroke-width="1"/>
-  <text x="336" y="589" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#171a1f">Subtract signals</text>
-  <text x="336" y="612" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="12" fill="#5e636e">pending, restricted, unfollowed</text>
-
-  <rect x="556" y="558" width="190" height="76" rx="8" fill="#ffffff" stroke="#e7e9ec" stroke-width="1"/>
-  <text x="574" y="589" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#171a1f">Apply curation</text>
-  <text x="574" y="612" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="12" fill="#5e636e">confirmed and denied</text>
-
-  <rect x="794" y="558" width="316" height="76" rx="8" fill="#ffffff" stroke="#2b5cff" stroke-width="1.5"/>
-  <text x="812" y="589" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#171a1f">Output buckets</text>
-  <text x="812" y="612" font-family="Inter, Geist, system-ui, -apple-system, sans-serif" font-size="12" fill="#5e636e">ghost list, mutuals (incl. promoted), derived counts</text>
-
-  <line x1="270" y1="596" x2="318" y2="596" stroke="#cfd3da" stroke-width="1"/>
-  <polygon points="312,592 318,596 312,600" fill="#cfd3da"/>
-  <line x1="508" y1="596" x2="556" y2="596" stroke="#cfd3da" stroke-width="1"/>
-  <polygon points="550,592 556,596 550,600" fill="#cfd3da"/>
-  <line x1="746" y1="596" x2="794" y2="596" stroke="#2b5cff" stroke-width="1.5"/>
-  <polygon points="788,591 794,596 788,601" fill="#2b5cff"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1200 760" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <rect x="0" y="0" width="1200" height="760" style="fill:white;"/>
+    <path d="M1160,52L1160,708C1160,714.623 1154.623,720 1148,720L52,720C45.377,720 40,714.623 40,708L40,52C40,45.377 45.377,40 52,40L1148,40C1154.623,40 1160,45.377 1160,52Z" style="fill:none;stroke:rgb(231,233,236);stroke-width:1px;"/>
+    <g transform="matrix(1,0,0,1,80,96)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:34px;fill:rgb(23,26,31);">W<tspan x="29.478px 47.634px 58.242px 76.398px 95.2px 107.066px 115.158px 140.25px 159.052px 169.66px 189.074px 207.876px 218.484px 226.576px 256.054px 274.21px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">atchr Output Map</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,80,126)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue', 'Helvetica Neue';font-size:16px;fill:rgb(94,99,110);">W<tspan x="14.336px 22.752px 30.864px 35.424px 39.392px 46.912px 55.616px 64.032px 68px 79.648px 82.72px 85.792px 88.864px 92.832px 100.352px 108.464px 116.576px 120.544px 129.248px 137.664px 145.776px 153.888px 157.856px 162.416px 170.832px 178.944px 182.912px 191.92px 196.48px 205.184px 213.888px 218.736px 226.848px 240.016px 243.984px 248.832px 257.248px 265.664px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">hat you will see once the program runs</tspan></text>
+        <g transform="matrix(16,0,0,16,136.672,16)">
+        </g>
+        <text x="0px" y="16px" style="font-family:'HelveticaNeue', 'Helvetica Neue';font-size:16px;fill:rgb(94,99,110);">(<tspan x="3.664px 14.736px 23.44px 31.856px 40.272px 48.384px 56.496px 61.056px 64.128px 72.832px 81.248px 88.768px 92.736px 97.296px 105.408px 114.416px 123.12px 127.968px 132.528px " y="16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px 16px ">Connections report)</tspan></text>
+    </g>
+    <g transform="matrix(1,0,0,1,78,424)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:15px;fill:rgb(94,99,110);">Cor<tspan x="24.735px 33.075px " y="0px 0px ">e </tspan>sets</text>
+    </g>
+    <g transform="matrix(1,0,0,1,97,37)">
+        <path d="M421,462.837C395.106,478.793 364.62,488 332,488C238.174,488 162,411.826 162,318C162,224.174 238.174,148 332,148C364.62,148 395.106,157.207 421,173.163C372.415,203.1 340,256.794 340,318C340,379.206 372.415,432.9 421,462.837Z" style="fill:rgb(219,239,230);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,97,37)">
+        <path d="M421,173.163C372.415,203.1 340,256.794 340,318C340,379.206 372.415,432.9 421,462.837C469.585,432.9 502,379.206 502,318C502,256.794 469.585,203.1 421,173.163Z" style="fill:rgb(30,149,55);stroke:rgb(207,211,218);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,97,37)">
+        <path d="M421,173.163C446.894,157.207 477.38,148 510,148C603.826,148 680,224.174 680,318C680,411.826 603.826,488 510,488C477.38,488 446.894,478.793 421,462.837C469.585,432.9 502,379.206 502,318C502,256.794 469.585,203.1 421,173.163Z" style="fill:rgb(207,211,218);stroke:rgb(207,211,218);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,289,354)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:20px;fill:rgb(23,26,31);">FOLLOWRS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,638,365)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:20px;fill:rgb(23,26,31);">FOLLOWNG</text>
+    </g>
+    <g transform="matrix(1,0,0,1,462,363)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:22px;fill:white;">MUTUALS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,289,373)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(94,99,110);">T<tspan x="6.748px 15.05px " y="0px 0px ">ot</tspan>al that follow</text>
+        <g transform="matrix(14,0,0,14,84.812,14)">
+        </g>
+        <text x="0px" y="14px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(94,99,110);">your account</text>
+    </g>
+    <g transform="matrix(1,0,0,1,638,379)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(94,99,110);">T<tspan x="6.748px 15.05px " y="0px 0px ">ot</tspan>al that you</text>
+        <g transform="matrix(14,0,0,14,38.654,14)">
+        </g>
+        <text x="0px" y="14px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(94,99,110);">follow</text>
+    </g>
+    <g transform="matrix(0.742471,0,0,0.742471,463.978368,375.251527)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(201,203,207);">Y<tspan x="7.784px 16.086px " y="0px 0px ">ou</tspan> follow each other</text>
+        <g transform="matrix(14,0,0,14,104.02,14)">
+        </g>
+        <text x="0px" y="14px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(201,203,207);">mates, basically</text>
+    </g>
+    <g transform="matrix(0.831579,0,0,0.831579,217.947368,109.642105)">
+        <path d="M1110,188.025L1110,333.975C1110,340.612 1104.612,346 1097.975,346L742.025,346C735.388,346 730,340.612 730,333.975L730,188.025C730,181.388 735.388,176 742.025,176L1097.975,176C1104.612,176 1110,181.388 1110,188.025Z" style="fill:white;stroke:rgb(231,233,236);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(0.831579,0,0,0.831579,849.947368,287.6)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:16px;fill:rgb(23,26,31);">Since last run</text>
+    </g>
+    <g transform="matrix(0.831579,0,0,0.831579,217.947368,109.642105)">
+        <path d="M760,228L1080,228" style="fill:none;fill-rule:nonzero;stroke:rgb(231,233,236);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(0.831579,0,0,0.831579,849.947368,330.842105)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(43,92,255);">+ Followed you</text>
+    </g>
+    <g transform="matrix(0.831579,0,0,0.831579,849.947368,360.778947)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(94,99,110);">- Unfollowed you</text>
+    </g>
+    <g transform="matrix(0.831579,0,0,0.831579,849.947368,384.063158)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:12px;fill:rgb(94,99,110);">computed fr<tspan x="67.572px 74.688px " y="0px 0px ">om</tspan> per<tspan x="106.032px 110.7px " y="0px 0px ">-e</tspan>xport follower snapshot</text>
+    </g>
+    <g transform="matrix(1,0,0,1,88,583)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:15px;fill:rgb(94,99,110);">Cleaning pipeline</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M270,566L270,626C270,630.415 266.415,634 262,634L88,634C83.585,634 80,630.415 80,626L80,566C80,561.585 83.585,558 88,558L262,558C266.415,558 270,561.585 270,566Z" style="fill:white;stroke:rgb(231,233,236);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,99,624)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(23,26,31);">Raw claim</text>
+    </g>
+    <g transform="matrix(1,0,0,1,99,647)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:12px;fill:rgb(94,99,110);">following - followers</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M508,566L508,626C508,630.415 504.415,634 500,634L326,634C321.585,634 318,630.415 318,626L318,566C318,561.585 321.585,558 326,558L500,558C504.415,558 508,561.585 508,566Z" style="fill:white;stroke:rgb(231,233,236);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,337,624)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(23,26,31);">Subtract signals</text>
+    </g>
+    <g transform="matrix(1,0,0,1,337,647)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:12px;fill:rgb(94,99,110);">pending, r<tspan x="55.8px 62.472px " y="0px 0px ">es</tspan>tricted, unfollowed</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M746,566L746,626C746,630.415 742.415,634 738,634L564,634C559.585,634 556,630.415 556,626L556,566C556,561.585 559.585,558 564,558L738,558C742.415,558 746,561.585 746,566Z" style="fill:white;stroke:rgb(231,233,236);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,575,624)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(23,26,31);">Apply curation</text>
+    </g>
+    <g transform="matrix(1,0,0,1,575,647)">
+        <g transform="matrix(12,0,0,12,20.676,0)">
+        </g>
+        <g transform="matrix(12,0,0,12,24.456,0)">
+        </g>
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:12px;fill:rgb(94,99,110);">conﬁrmed and denied</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M1110,566L1110,626C1110,630.415 1106.415,634 1102,634L802,634C797.585,634 794,630.415 794,626L794,566C794,561.585 797.585,558 802,558L1102,558C1106.415,558 1110,561.585 1110,566Z" style="fill:white;stroke:rgb(43,92,255);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,813,624)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:14px;fill:rgb(23,26,31);">Output buckets</text>
+    </g>
+    <g transform="matrix(1,0,0,1,813,647)">
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Medium', 'Helvetica Neue', sans-serif;font-weight:500;font-size:12px;fill:rgb(94,99,110);">ghost list, mutuals (incl. pr<tspan x="145.392px 152.508px " y="0px 0px ">om</tspan>oted), derived counts</text>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M270,596L318,596" style="fill:none;fill-rule:nonzero;stroke:rgb(207,211,218);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M312,592L318,596L312,600L312,592Z" style="fill:rgb(207,211,218);fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M508,596L556,596" style="fill:none;fill-rule:nonzero;stroke:rgb(207,211,218);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M550,592L556,596L550,600L550,592Z" style="fill:rgb(207,211,218);fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M746,596L794,596" style="fill:none;fill-rule:nonzero;stroke:rgb(43,92,255);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,1,35)">
+        <path d="M788,591L794,596L788,601L788,591Z" style="fill:rgb(43,92,255);fill-rule:nonzero;"/>
+    </g>
+    <g>
+        <g transform="matrix(0.137066,0,0,0.142301,1048.795367,29.939496)">
+            <path d="M421,462.837C395.106,478.793 364.62,488 332,488C238.174,488 162,411.826 162,318C162,224.174 238.174,148 332,148C364.62,148 395.106,157.207 421,173.163C446.894,157.207 477.38,148 510,148C603.826,148 680,224.174 680,318C680,411.826 603.826,488 510,488C477.38,488 446.894,478.793 421,462.837Z" style="fill:rgb(219,239,230);"/>
+        </g>
+        <g transform="matrix(0.996958,0,0,0.996958,3.273359,-15.662321)">
+            <path d="M1107.095,107.176C1103.853,109.578 1099.841,111 1095.5,111C1084.738,111 1076,102.262 1076,91.5C1076,80.738 1084.738,72 1095.5,72C1099.841,72 1103.853,73.422 1107.095,75.824C1102.3,79.378 1099.189,85.079 1099.189,91.5C1099.189,97.921 1102.3,103.622 1107.095,107.176Z" style="fill:rgb(219,239,230);stroke:white;stroke-width:2.51px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+        </g>
+        <g transform="matrix(0.996958,0,0,0.996958,26.392003,-15.662321)">
+            <path d="M1083.905,75.824C1087.147,73.422 1091.159,72 1095.5,72C1106.262,72 1115,80.738 1115,91.5C1115,102.262 1106.262,111 1095.5,111C1091.159,111 1087.147,109.578 1083.905,107.176C1088.7,103.622 1091.811,97.921 1091.811,91.5C1091.811,85.079 1088.7,79.378 1083.905,75.824Z" style="fill:rgb(207,211,218);stroke:white;stroke-width:2.51px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+        </g>
+        <g transform="matrix(0.996958,0,0,0.996958,26.392003,-15.662321)">
+            <path d="M1083.905,107.176C1079.11,103.622 1076,97.921 1076,91.5C1076,85.079 1079.11,79.378 1083.905,75.824C1088.7,79.378 1091.811,85.079 1091.811,91.5C1091.811,97.921 1088.7,103.622 1083.905,107.176Z" style="fill:rgb(30,149,55);stroke:white;stroke-width:2.51px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+        </g>
+    </g>
 </svg>
