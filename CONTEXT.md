@@ -1,6 +1,6 @@
 # CONTEXT — Domain glossary
 
-Vocabulary for the Instagram Export Analyzer. Use these names in code, docs,
+Vocabulary for Watchr. Use these names in code, docs,
 and architecture discussions. See `docs/adr/` for recorded decisions.
 
 - **Export snapshot** — one Instagram data download (folder or ZIP as delivered
@@ -40,7 +40,7 @@ was rejected because it lets a fresh clone inherit another user's curation and c
 single export with repo-local state.
 
 - Default curation lives at the export folder.
-- Temp-extracted `--zip` exports use a stable per-export cache (`~/.cache/ig-analyzer/<name>`)
+- Temp-extracted `--zip` exports use a stable per-export cache (`~/.cache/watchr/<name>`)
   so curation survives across runs of the same ZIP.
 - `--curated FILE` overrides the root to the file's parent.
 - Reads are unioned with export-embedded copies when the cache root differs from the export dir.

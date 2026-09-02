@@ -1,7 +1,14 @@
-# Instagram Export Analyzer
+# Watchr
+
+### Your unofficial watcher for Instagram exports.
 
 Parse an **Instagram data export** (JSON from *Accounts Centre → Download your information*)
 and print readable, offline reports: connections, activity, login history, and ad tracking.
+Watchr tells you who followed or unfollowed since your last run, who doesn't
+follow you back, and who you don't follow back — no online account required,
+no tracking, no third-party cloud.
+
+> **Who's watching you back?** Know who *actually* cares.
 
 Standard library only · Python **3.10+** · personal details **redacted by default**
 
@@ -9,7 +16,7 @@ Standard library only · Python **3.10+** · personal details **redacted by defa
 
 ```bash
 # 1. Clone (you init git when ready)
-git clone <repo-url> && cd instagram-export-analyzer
+git clone <repo-url> && cd watchr
 
 # 2. Optional: install console entry point
 pip install -e ".[dev]"
@@ -34,9 +41,12 @@ Copy `.env.example` to `.env` and set `INSTAGRAM_EXPORT_DIR` if you prefer not t
 
 ## What it reports
 
+Watchr's core job is **watching your follows** — who followed, who unfollowed,
+who doesn't follow you back, and who you don't follow back:
+
 | Section | Insights |
 |---|---|
-| **Connections** | Raw export totals vs app insights, cleaned don't-follow-back list (pending/restricted/curated buckets), mutuals, app-derived reconciliation counts, blocked, close friends |
+| **Connections** | Who followed / who unfollowed since last run, raw export totals vs app insights, cleaned don't-follow-back list (pending/restricted/curated buckets), mutuals, app-derived reconciliation counts, blocked, close friends |
 | **Activity** | Posts/stories by month, likes, comments, search history |
 | **Security** | Login history, active sessions |
 | **Ads & Tracking** | Ad interests, advertisers with your data, off-Instagram activity |
@@ -68,7 +78,7 @@ python3 instagram_analysis.py [options]
   --no-redact         Show raw email, phone, DOB, IPs
 ```
 
-After `pip install -e .`, the same commands work as `ig-analyze`.
+After `pip install -e .`, the same commands work as `watchr`.
 
 Export resolution order: `--export-dir` / `--zip` → `$INSTAGRAM_EXPORT_DIR` → auto-detect `instagram-*` next to the project.
 
@@ -82,7 +92,7 @@ curated numbers match what the app shows.
 
 **For cloners:** curation state is **per-export and never committed**. The live
 files (`curated_followers.txt`, `curated_nonfollowers.txt`, `curation_meta.json`)
-sits next to your export (or in a stable `~/.cache/ig-analyzer/<export>/` cache
+sits next to your export (or in a stable `~/.cache/watchr/<export>/` cache
 for extracted ZIPs) and is gitignored, so a fresh clone starts with an empty,
 clean slate — curate your own data without inheriting anyone else's.
 
@@ -126,7 +136,7 @@ per-export state placement and [docs/adr/0006-curation-state-deferred.md](docs/a
 
 ```
 .
-├── instagram_analysis.py   # Main analyzer
+├── instagram_analysis.py   # Main analyzer (the "watchr" engine)
 ├── connections/graph.py    # Shared follower/following loader
 ├── connections/cleaning.py # Data cleaning & curation pipeline
 ├── curate_session.py       # Interactive curation wizard (--curate)
@@ -178,15 +188,21 @@ CI runs the same checks on push (see `.github/workflows/ci.yml`).
 
 ## Import as a library
 
+> **Brand vs. module name:** The package is branded as `watchr`, but the
+> internal Python module is still `instagram_analysis` — this is intentional.
+> The module name describes what it *does* (analyse Instagram exports), while
+> `watchr` is the user-facing brand. No rename is needed.
+
 ```python
-from instagram_analysis import connection_summary, run_reports
-
-# Set BASE_DIR first, or use CLI flags when calling main()
 from pathlib import Path
-import instagram_analysis as ia
+from context import AnalyzerContext
+from instagram_analysis import run_reports
 
-ia.BASE_DIR = Path("tests/fixtures/minimal_export/instagram-demo-2026-01-01-TEST01")
-connection_summary()
+ctx = AnalyzerContext(
+    base_dir=Path("tests/fixtures/minimal_export/instagram-demo-2026-01-01-TEST01"),
+    redact=True,
+)
+run_reports(ctx, {"connections"})
 ```
 
 ## License

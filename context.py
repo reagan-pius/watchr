@@ -1,6 +1,6 @@
 """AnalyzerContext — one immutable value holding a run's configuration.
 
-Replaces the former module globals (BASE_DIR, REDACT, _graph_cache,
+Replaces the former module globals (BASE_DIR, REDACT, _connections_cache,
 _curated_path, _assume_mutual). Built once in main() and passed explicitly
 to every report function; see docs/adr/0001-analyzer-context.md.
 """

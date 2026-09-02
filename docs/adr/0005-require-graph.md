@@ -1,16 +1,18 @@
-# ADR-0005: One missing-data guard for report sections
+# ADR-0005: Uniform missing-data handling for connections reports
 
-Status: Accepted (design) — implementation pending go-ahead
+Status: Accepted and implemented (via `_connections`)
 
 ## Context
-Report functions handle a missing ConnectionGraph four different ways; one
-loads two JSON files and discards the data purely to reuse `load()`'s error
-printing.
+Connections report paths handled missing graph/data inconsistently.
 
 ## Decision
-`_require_graph(ctx) -> ConnectionGraph | None` owns the missing-files
-diagnostic. `load()` / `load_first()` gain a quiet mode so callers never
-invoke them for their print side effects.
+Use `_connections(ctx)` as the single guard for connection graph availability.
+When required files are missing, it prints one diagnostic and returns `None`.
+Section functions early-return on that shared result.
+
+`load()` and `load_first()` support quiet mode so callers do not invoke loaders
+only for print side effects.
 
 ## Consequences
-- One diagnostic, tested once; report sections stay uniform.
+- One missing-data behavior for all connections sections.
+- Simpler report code with consistent early-return semantics.

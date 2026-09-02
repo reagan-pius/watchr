@@ -15,7 +15,7 @@ never inherits another user's curation:
 
   1. explicit --curated FILE's parent, else
   2. the export folder itself when it is a stable directory, else
-  3. a stable per-export cache (~/.cache/ig-analyzer/<export-name>) when the
+  3. a stable per-export cache (~/.cache/watchr/<export-name>) when the
      export folder is a temp extraction from --zip (so curation survives
      across runs of the same ZIP).
 
@@ -35,6 +35,9 @@ from pathlib import Path
 CURATED_FILE_NAME = "curated_followers.txt"
 CURATED_NONFOLLOWERS_FILE_NAME = "curated_nonfollowers.txt"
 CURATION_META_FILE_NAME = "curation_meta.json"
+
+CACHE_NAMESPACE = "watchr"
+LEGACY_CACHE_NAMESPACE = "ig-analyzer"
 
 _ANSWER_HEADER_FOLLOWERS = [
     "# Handles confirmed to follow me back (written by the curation session).",
@@ -121,6 +124,39 @@ LEGACY_CURATED_FILE_NAMES = (
 )
 
 
+def _zip_cache_root(export_name: str) -> Path:
+    return Path.home() / ".cache" / CACHE_NAMESPACE / export_name
+
+
+def migrate_legacy_cache(export_name: str) -> int:
+    """Move curated files from pre-rebrand ``~/.cache/ig-analyzer/<export>``.
+
+    Runs once when resolving a temp ZIP extraction and the new cache dir is
+    empty. Never overwrites existing curated state under ``watchr``.
+    """
+    new_root = _zip_cache_root(export_name)
+    old_root = Path.home() / ".cache" / LEGACY_CACHE_NAMESPACE / export_name
+    if not old_root.is_dir():
+        return 0
+    if any((new_root / name).is_file() for name in LEGACY_CURATED_FILE_NAMES):
+        return 0
+    moved = 0
+    new_root.mkdir(parents=True, exist_ok=True)
+    for name in LEGACY_CURATED_FILE_NAMES:
+        src = old_root / name
+        dst = new_root / name
+        if src.is_file() and not dst.exists():
+            shutil.copy2(src, dst)
+            src.unlink()
+            moved += 1
+    # Best effort cleanup; keep working if removal fails.
+    try:
+        old_root.rmdir()
+    except OSError:
+        pass
+    return moved
+
+
 def migrate_legacy_curation(store: CurationStore, legacy_root: Path | None) -> int:
     """Copy legacy curated files from ``legacy_root`` (e.g. an old project root)
     into the store's root when the target lacks them. Returns files copied.
@@ -171,7 +207,8 @@ class CurationStore:
             return cls(root=explicit_curated.parent, export_dir=export_dir)
         root = export_dir
         if _is_temp_extraction(export_dir):
-            root = Path.home() / ".cache" / "ig-analyzer" / export_dir.name
+            migrate_legacy_cache(export_dir.name)
+            root = _zip_cache_root(export_dir.name)
         return cls(root=root, export_dir=export_dir)
 
     @property

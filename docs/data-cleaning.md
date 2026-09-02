@@ -60,7 +60,7 @@ Where the files are looked up, in order (see ADR-0002):
 - `--curated FILE` (explicit path) — root is the file's parent directory, else
 - the export folder itself (the resolved `--export-dir` / `--zip` target), else
 - for a temp-extracted `--zip` run, a stable per-export cache at
-  `~/.cache/ig-analyzer/<export-name>` so curation survives across runs of the
+  `~/.cache/watchr/<export-name>` so curation survives across runs of the
   same ZIP.
 
 Either way the three files (`curated_followers.txt`,

@@ -1,7 +1,8 @@
-"""Tests for the Instagram export analyzer."""
+"""Tests for the Watchr Instagram export analyzer."""
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -99,3 +100,35 @@ def test_main_output_file(tmp_path):
     text = out_file.read_text(encoding="utf-8")
     assert "Your profile info" in text
     assert "demo_user" in text
+
+
+def _write_relationship(path: Path, usernames: list[str]) -> None:
+    payload = [{"string_list_data": [{"value": handle}]} for handle in usernames]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+
+def test_followers_delta_since_last_run(tmp_path, capsys):
+    import instagram_analysis as ia
+
+    export_dir = tmp_path / "instagram-demo-2026-01-01-TEST01"
+    conn_dir = export_dir / "connections/followers_and_following"
+
+    _write_relationship(conn_dir / "followers_1.json", ["alice_demo", "bob_demo"])
+    _write_relationship(conn_dir / "following.json", ["alice_demo", "bob_demo"])
+
+    ia.main(["--export-dir", str(export_dir), "--section", "connections"])
+    first = capsys.readouterr().out
+    assert "Since last run" in first
+    assert "No previous snapshot yet" in first
+
+    # Bob is gone, Carol is new follower.
+    _write_relationship(conn_dir / "followers_1.json", ["alice_demo", "carol_demo"])
+    _write_relationship(conn_dir / "following.json", ["alice_demo", "bob_demo", "carol_demo"])
+
+    ia.main(["--export-dir", str(export_dir), "--section", "connections"])
+    second = capsys.readouterr().out
+    assert "Followed you since last run  1" in second
+    assert "+ carol_demo" in second
+    assert "Unfollowed since last run    1" in second
+    assert "- bob_demo" in second

@@ -17,4 +17,6 @@ htmlcov/
 /curated_followers.txt
 /curated_nonfollowers.txt
 /curation_meta.json
+/followers_snapshot.json
 /.cache/
+tmp_gitcheck/    # stray temp git dir - do not recurse

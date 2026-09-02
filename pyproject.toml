@@ -3,13 +3,13 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "instagram-export-analyzer"
+name = "watchr"
 version = "0.1.0"
-description = "Offline analyzer for Instagram JSON data exports"
+description = "Offline unofficial watcher for Instagram data exports"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "Instagram Export Analyzer contributors" }]
+authors = [{ name = "Watchr contributors" }]
 keywords = ["instagram", "privacy", "gdpr", "data-export"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -28,10 +28,10 @@ dependencies = []
 dev = ["pytest>=7.0"]
 
 [project.scripts]
-ig-analyze = "instagram_analysis:main"
+watchr = "instagram_analysis:main"
 
 [tool.setuptools]
-py-modules = ["instagram_analysis", "sanitize", "export_paths", "setup_check"]
+py-modules = ["instagram_analysis", "sanitize", "export_paths", "setup_check", "context", "curate_session"]
 
 [tool.setuptools.packages.find]
 include = ["connections*"]

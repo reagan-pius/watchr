@@ -326,7 +326,7 @@ def test_store_resolve_default_is_export_dir(tmp_path):
 
 def test_store_resolve_zip_extraction_uses_per_export_cache(tmp_path, monkeypatch):
     """A temp-extracted --zip export stores curation in a stable per-export cache."""
-    from connections.curation_store import CurationStore
+    from connections.curation_store import CACHE_NAMESPACE, CurationStore
 
     fake_home = tmp_path / "fakehome"
     monkeypatch.setattr(Path, "home", staticmethod(lambda: fake_home))
@@ -338,7 +338,34 @@ def test_store_resolve_zip_extraction_uses_per_export_cache(tmp_path, monkeypatc
         explicit_curated=None, export_dir=temp_export, project_root=tmp_path
     )
     # Root is under the fake cache dir, keyed by the export folder name.
-    assert store.root == fake_home / ".cache" / "ig-analyzer" / "ig-export-abc123"
+    assert store.root == fake_home / ".cache" / CACHE_NAMESPACE / "ig-export-abc123"
+
+
+def test_migrate_legacy_zip_cache(tmp_path, monkeypatch):
+    """Pre-rebrand ~/.cache/ig-analyzer/<export> curation is moved into watchr."""
+    from connections.curation_store import (
+        CACHE_NAMESPACE,
+        CURATED_FILE_NAME,
+        CurationStore,
+        LEGACY_CACHE_NAMESPACE,
+    )
+
+    fake_home = tmp_path / "fakehome"
+    monkeypatch.setattr(Path, "home", staticmethod(lambda: fake_home))
+
+    temp_export = tmp_path / "ig-export-abc123"
+    temp_export.mkdir()
+
+    old_cache = fake_home / ".cache" / LEGACY_CACHE_NAMESPACE / temp_export.name
+    old_cache.mkdir(parents=True)
+    (old_cache / CURATED_FILE_NAME).write_text("legacy_user\n", encoding="utf-8")
+
+    store = CurationStore.resolve(
+        explicit_curated=None, export_dir=temp_export, project_root=tmp_path
+    )
+    assert store.root == fake_home / ".cache" / CACHE_NAMESPACE / temp_export.name
+    assert "legacy_user" in store.load().confirmed
+    assert not (old_cache / CURATED_FILE_NAME).exists()
 
 
 def test_migrate_legacy_curation(tmp_path):

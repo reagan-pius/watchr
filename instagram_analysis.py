@@ -1,6 +1,8 @@
 """
-Instagram Data Export Analyser
-==============================
+Watchr — Instagram Data Export Analyser
+========================================
+Your unofficial watcher for Instagram exports.
+
 Parse an unzipped Instagram data export (JSON) and print readable reports
 about followers, activity, security and ad/tracking — fully offline.
 
@@ -127,6 +129,7 @@ def ts(unix: int) -> str:
 
 
 _connections_cache: dict[AnalyzerContext, ConnectionsInsights | None] = {}
+FOLLOWER_SNAPSHOT_FILE_NAME = "followers_snapshot.json"
 
 
 def _connections(ctx: AnalyzerContext) -> ConnectionsInsights | None:
@@ -152,6 +155,58 @@ def _count_label(count: int, graph: ConnectionGraph) -> str:
     return str(count)
 
 
+def _follower_snapshot_path(ctx: AnalyzerContext) -> Path:
+    return ctx.curation_store().root / FOLLOWER_SNAPSHOT_FILE_NAME
+
+
+def _load_follower_snapshot(path: Path) -> set[str] | None:
+    if not path.is_file():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    raw = payload.get("followers") if isinstance(payload, dict) else None
+    if not isinstance(raw, list):
+        return None
+    return {str(handle).strip().casefold() for handle in raw if str(handle).strip()}
+
+
+def _save_follower_snapshot(path: Path, followers: set[str]) -> None:
+    payload = {
+        "updated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "followers": sorted(followers),
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def _print_follower_delta(ctx: AnalyzerContext, graph: ConnectionGraph) -> None:
+    """Show who followed/unfollowed since the previous run for this export root."""
+    if "tests" in ctx.base_dir.parts:
+        return
+    snapshot_path = _follower_snapshot_path(ctx)
+    previous = _load_follower_snapshot(snapshot_path)
+    current = set(graph.followers)
+
+    print("\n🔁  Since last run (followers):")
+    if previous is None:
+        print("   No previous snapshot yet — saved this run as baseline.")
+    else:
+        followed = current - previous
+        unfollowed = previous - current
+        print(f"   Followed you since last run  {len(followed)}")
+        for handle in sorted(followed):
+            print(f"   + {graph.show(handle)}")
+        print(f"   Unfollowed since last run    {len(unfollowed)}")
+        for handle in sorted(unfollowed):
+            print(f"   - {handle}")
+    try:
+        _save_follower_snapshot(snapshot_path, current)
+    except OSError as exc:
+        print(f"  [!] Could not persist follower snapshot: {exc}", file=sys.stderr)
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. CONNECTIONS  ──  followers / following / blocked / restricted
 # ══════════════════════════════════════════════════════════════════════════════
@@ -174,6 +229,7 @@ def connection_summary(ctx: AnalyzerContext) -> None:
     print(f"   Following in export       {len(graph.following)}")
     mutual_note = graph.export_only_label or "from export"
     print(f"   Mutuals ({mutual_note})     {len(graph.mutuals)}")
+    _print_follower_delta(ctx, graph)
 
     if ins.promoted:
         kind = "confirmed + assumed (--assume-mutual)" if ctx.assume_mutual else "confirmed via curation"
@@ -670,8 +726,11 @@ def run_reports(ctx: AnalyzerContext, sections: set[str]) -> None:
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
-        prog="instagram_analysis",
-        description="Analyse an Instagram data export (JSON) and print a readable report.",
+        prog="watchr",
+        description=(
+            "Watchr — your unofficial watcher for Instagram exports.\n"
+            "Parse an Instagram data export (JSON) and print readable, offline reports."
+        ),
         epilog="Personal details are redacted by default; use --no-redact for raw values.",
     )
     parser.add_argument(
@@ -750,6 +809,8 @@ def main(argv: list[str] | None = None) -> None:
         assume_mutual=args.assume_mutual,
         project_root=Path(__file__).resolve().parent,
     )
+    # Avoid stale data when main() is called multiple times in-process (tests/library).
+    _connections_cache.clear()
 
     # One-time legacy transition: copy curated state that used to live next to
     # the repository into this export's own store (ADR-0002 addendum). Skipped
