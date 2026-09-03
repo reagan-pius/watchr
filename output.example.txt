@@ -11,7 +11,7 @@
   use --no-redact to see raw values.
 
 👤  Your profile info:
-   Username                  demo_user
+   Username                  me
    Name                      ***
    Bio                       fixture account for tests
    Private account           False
@@ -49,16 +49,16 @@
 👻  People you follow who DON'T follow you back (0, export-only — follower list incomplete):
 
 ⏳  Pending follow requests — not yet accepted, excluded above (1):
-   • dave_demo
+   • user_004
 
 🙈  Followers you DON'T follow back (1, export-only — follower list incomplete):
-   • carol_demo
+   • user_003
 
 🤝  Mutuals (3, export-only — follower list incomplete):
    (+1 promoted — confirmed via curation; raw export mutuals: 2)
-   • alice_demo
-   • bob_demo
-   • eve_demo
+   • user_001
+   • user_002
+   • user_005
 
 ── ACTIVITY ─────────────────────────────────────────────
 
@@ -85,17 +85,17 @@
    2024-02  █ 1
 
 ❤️   You've liked 1 posts. Most recent 1:
-   • alice_demo  @ 2024-01-01 00:00
+   • user_001  @ 2024-01-01 00:00
 
 💬  You've liked 2 comments.
 
 🗨️   Top accounts you commented on:
-      2x  alice_demo
-      1x  bob_demo
+      2x  user_001
+      1x  user_002
 
 🔍  Top searched accounts (3 total):
-     2x  alice_demo
-     1x  carol_demo
+     2x  user_001
+     1x  user_003
 
 🔖  Saved items (2). Sample 2:
    • demo_saved_post  @ 2024-01-01 00:00
@@ -195,10 +195,10 @@
    Attached media files on disk: 0
 
 💬  Largest threads (sample 2 of 2):
-   • [inbox] alice_demo  —  3 msgs, 0 media, 2024-01 → 2024-01
-       participants: demo_user, alice_demo
+   • [inbox] user_001  —  3 msgs, 0 media, 2024-01 → 2024-01
+       participants: me, user_001
    • [requests] stranger  —  1 msgs, 0 media, 2024-01 → 2024-01
-       participants: stranger, demo_user
+       participants: stranger, me
    Privacy: Watchr does not print DM bodies. Open message_*.json locally if needed.
 
 ── APPS & WEBSITES ──────────────────────────────────────
@@ -225,3 +225,49 @@
    • A*** L***
    • G*** H***
    • A*** T***
+
+── SHOPPING ─────────────────────────────────────────────
+
+📋  Export inventory (shopping):
+   ✓  recently viewed shopping items
+   ✓  wishlist items
+   ✓  shopping orders / checkout
+
+🛍  Recently viewed items (3):
+   • Demo Running Shoes
+   • Demo Camera Strap
+   • Demo Water Bottle
+
+⭐  Wishlist (2):
+   • Demo Tripod
+   • Demo Backpack
+
+🧾  Orders / checkout records (1):
+   • Demo Socks (order)
+
+── PREFERENCES ──────────────────────────────────────────
+
+📋  Export inventory (preferences):
+   ✓  your topics
+   ✓  reels topics
+   ✓  notification preferences
+   ✓  comments settings
+   ✗  media settings (not in this ZIP)
+   Note: missing files were omitted from this ZIP — enable Preferences when requesting a download if you need them.
+
+🗂  Your topics (3):
+   • Photography
+   • Hiking
+   • Open Source
+
+🎬  Reels topics (2):
+   • Trail Running Reels
+   • Camera Tips
+
+🔔  Notification preferences (3):
+   • Push — Likes: On
+   • Email / Reminders: Off
+   • Push — Comments: On
+
+💬  Comments settings:
+   • Comments allowed from: Everyone
