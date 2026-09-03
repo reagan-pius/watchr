@@ -1,0 +1,7 @@
+{
+  "topics_your_topics": [
+    { "string_map_data": { "Name": { "value": "Photography" } } },
+    { "string_map_data": { "Name": { "value": "Hiking" } } },
+    { "string_map_data": { "Name": { "value": "Open Source" } } }
+  ]
+}

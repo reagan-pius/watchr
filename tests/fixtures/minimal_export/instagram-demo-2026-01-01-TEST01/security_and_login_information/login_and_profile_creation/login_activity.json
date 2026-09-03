@@ -1,0 +1,25 @@
+{
+  "account_history_login_history": [
+    {
+      "string_map_data": {
+        "Time": { "timestamp": 1704067200 },
+        "User Agent": { "value": "DemoPhone OS 1.0" },
+        "IP Address": { "value": "203.0.113.10" }
+      }
+    },
+    {
+      "string_map_data": {
+        "Time": { "timestamp": 1706745600 },
+        "User Agent": { "value": "DemoPhone OS 1.0" },
+        "IP Address": { "value": "203.0.113.11" }
+      }
+    },
+    {
+      "string_map_data": {
+        "Time": { "timestamp": 1709251200 },
+        "User Agent": { "value": "DemoTablet OS 2.0" },
+        "IP Address": { "value": "198.51.100.5" }
+      }
+    }
+  ]
+}

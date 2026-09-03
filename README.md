@@ -5,8 +5,9 @@
 Parse an **Instagram data export** (JSON from *Accounts Centre → Download your information*)
 and print readable, offline reports: connections, activity, login history, and ad tracking.
 Watchr tells you who followed or unfollowed since your last run, who doesn't
-follow you back, and who you don't follow back — no online account required,
-no tracking, no third-party cloud.
+follow you back, who you don't follow back, and — for ads — how advertisers
+target you (data-file / remarketing / store visit), not just a name dump.
+No online account required, no tracking, no third-party cloud.
 
 > **Who's watching you back?** Know who *actually* cares.
 
@@ -41,18 +42,24 @@ Copy `.env.example` to `.env` and set `INSTAGRAM_EXPORT_DIR` if you prefer not t
 
 ## What it reports
 
-Watchr's core job is **watching your follows** — who followed, who unfollowed,
-who doesn't follow you back, and who you don't follow back:
+Watchr is an **offline Instagram export analyser**. Connections is the deepest
+pillar (follow/unfollow, curation); other sections use the same inventory-first
+insights pattern for whatever your ZIP contains.
 
 | Section | Insights |
 |---|---|
 | **Connections** | Who followed / who unfollowed since last run, raw export totals vs app insights, cleaned don't-follow-back list (pending/restricted/curated buckets), mutuals, app-derived reconciliation counts, blocked, close friends |
-| **Activity** | Posts/stories by month, likes, comments, search history |
-| **Security** | Login history, active sessions |
-| **Ads & Tracking** | Ad interests, advertisers with your data, off-Instagram activity |
+| **Activity** | Inventory + posts/stories/reels by month, likes, comments, searches, saved items, story likes/polls |
+| **Security** | Inventory + login history, devices seen, active sessions, password/email change counts, 2FA/protection signals |
+| **Ads & Tracking** | File inventory, advertiser audience-type flags (data-file / remarketing / store visit), interests & categories, ads viewed/clicked, ad preferences, off-Instagram activity — see [docs/ads-explained.md](docs/ads-explained.md) |
+| **Messages** | Thread counts (inbox vs requests), message counts, date spans, participants — **never prints DM bodies** |
+| **Apps** | Linked apps/websites and off-Meta activity summaries |
+| **Contacts** | Synced contact counts with redacted samples (raw names only with `--no-redact`) |
+| **Shopping** | Recently viewed items, wishlist, checkout/order records |
+| **Preferences** | Your topics, reels topics, notification prefs, comments/media settings |
 | **Profile** | Username, bio, privacy flags from the export |
 
-> Results reflect the ZIP snapshot only. See [docs/counts-explained.md](docs/counts-explained.md) when numbers differ from the app.
+> Results reflect the ZIP snapshot only. See [docs/counts-explained.md](docs/counts-explained.md) when connection numbers differ from the app.
 
 ### Visual output map
 
@@ -69,7 +76,8 @@ python3 instagram_analysis.py [options]
   --export-dir DIR    Unzipped export folder
   --zip FILE          Export ZIP (extracted for this run)
   --check             Verify setup; exit 0 if ready to analyze
-  --section NAME      profile | connections | activity | security | ads | all
+  --section NAME      profile | connections | activity | security | ads |
+                      messages | apps | contacts | shopping | preferences | all
   --curated FILE      curated_followers.txt override — handles you visually
                       confirmed follow you back (promoted into Mutuals)
   --curate            Interactive curation session: asks for your in-app
@@ -82,7 +90,8 @@ python3 instagram_analysis.py [options]
                       Mutuals, labeled as assumed) — only if you know you
                       follow everyone back
   --output FILE       Write report to FILE instead of stdout
-  --no-redact         Show raw email, phone, DOB, IPs
+  --ads-limit N       Max sample rows for list-heavy sections (default 30; 0 = all)
+  --no-redact         Show raw email, phone, DOB, IPs, contact names
 ```
 
 After `pip install -e .`, the same commands work as `watchr`.
@@ -144,14 +153,22 @@ per-export state placement and [docs/adr/0006-curation-state-deferred.md](docs/a
 ```
 .
 ├── instagram_analysis.py   # Main analyzer (the "watchr" engine)
-├── connections/graph.py    # Shared follower/following loader
-├── connections/cleaning.py # Data cleaning & curation pipeline
-├── curate_session.py       # Interactive curation wizard (--curate)
+├── connections/            # Follow graph, cleaning, curation insights
+├── ads/                    # Ads & tracking insights (ADR-0007)
+├── activity/               # Posts, likes, saved, reels, story interactions
+├── security/               # Login, sessions, devices, account events
+├── messages/               # DM thread metadata (no message bodies)
+├── apps/                   # Apps & websites off Instagram
+├── contacts/               # Synced contacts (redacted samples)
+├── shopping/               # Recently viewed, wishlist, orders
+├── preferences/            # Topics, notifications, settings
+├── export_inventory.py     # Present/missing/empty file groups
 ├── export_paths.py         # Export folder / ZIP resolution
+├── curate_session.py       # Interactive curation wizard (--curate)
 ├── setup_check.py          # --check diagnostics
 ├── sanitize.py             # Redact output for sharing
 ├── tests/fixtures/         # Demo export (safe to commit)
-├── docs/                   # Export checklist & counts explained
+├── docs/                   # Checklists, counts, ads-explained, ADRs
 ├── output.example.txt      # Sample report from fixture (sanitized)
 └── instagram-<you>-…/      # Your export — gitignored, contains your
                             #   curated_followers.txt / curation_meta.json

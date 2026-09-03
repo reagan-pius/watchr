@@ -22,6 +22,7 @@ class AnalyzerContext:
     curated_path: Path | None = None   # explicit --curated FILE override
     assume_mutual: bool = False    # --assume-mutual policy flag
     project_root: Path | None = None   # legacy-migration source for curated state
+    ads_limit: int = 30            # --ads-limit (0 = unlimited sample lists)
 
     def curation_store(self) -> CurationStore:
         """The curated-state store for this run (ADR-0002)."""

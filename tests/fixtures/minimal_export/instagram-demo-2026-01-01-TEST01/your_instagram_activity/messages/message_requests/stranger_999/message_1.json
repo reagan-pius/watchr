@@ -1,0 +1,7 @@
+{
+  "participants": [{ "name": "stranger" }, { "name": "demo_user" }],
+  "title": "stranger",
+  "messages": [
+    { "sender_name": "stranger", "timestamp_ms": 1705000000000, "content": "request body hidden" }
+  ]
+}

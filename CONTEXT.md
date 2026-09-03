@@ -28,9 +28,19 @@ and architecture discussions. See `docs/adr/` for recorded decisions.
   vs curated mutuals (following − mutuals; app followers − mutuals). Counts
   only; the export cannot name the accounts.
 - **AnalyzerContext** — one immutable value holding a run's configuration
-  (export dir, redaction, curated path override, assume-mutual policy).
+  (export dir, redaction, curated path override, assume-mutual policy,
+  ads list limit).
 - **ConnectionsInsights** — the compute-once value consumed by report
   renderers: graph + cleaning result + promotion + derived counts.
+- **AdsInsights** — compute-once ads/tracking value (inventory, advertisers +
+  audience-type flags, interests/categories, engagement, preferences,
+  off-Instagram apps). See ADR-0007.
+- **ActivityInsights** / **SecurityInsights** / **MessagesInsights** /
+  **AppsInsights** / **ContactsInsights** / **ShoppingInsights** /
+  **PreferencesInsights** — same compute-once pattern for other export
+  domains. Messages never include DM bodies.
+- **Export inventory** — present / missing / empty status for logical file
+  groups with Meta path aliases (`export_inventory.py`).
 
 ## Architecture review — curation state placement
 

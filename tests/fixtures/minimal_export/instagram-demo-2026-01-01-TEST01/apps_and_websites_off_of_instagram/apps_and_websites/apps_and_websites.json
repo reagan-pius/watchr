@@ -1,0 +1,6 @@
+{
+  "installed_apps": [
+    { "name": "Demo Weather App" },
+    { "name": "Demo Fitness" }
+  ]
+}

@@ -31,10 +31,28 @@ dev = ["pytest>=7.0"]
 watchr = "instagram_analysis:main"
 
 [tool.setuptools]
-py-modules = ["instagram_analysis", "sanitize", "export_paths", "setup_check", "context", "curate_session"]
+py-modules = [
+    "instagram_analysis",
+    "sanitize",
+    "export_paths",
+    "export_inventory",
+    "setup_check",
+    "context",
+    "curate_session",
+]
 
 [tool.setuptools.packages.find]
-include = ["connections*"]
+include = [
+    "connections*",
+    "ads*",
+    "activity*",
+    "security*",
+    "messages*",
+    "apps*",
+    "contacts*",
+    "shopping*",
+    "preferences*",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

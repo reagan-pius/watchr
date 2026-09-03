@@ -1,0 +1,23 @@
+{
+  "settings_notification_preferences": [
+    {
+      "string_map_data": {
+        "Preference": { "value": "Push — Likes" },
+        "Value": { "value": "On" }
+      }
+    },
+    {
+      "string_map_data": {
+        "Channel": { "value": "Email" },
+        "Type": { "value": "Reminders" },
+        "Value": { "value": "Off" }
+      }
+    },
+    {
+      "string_map_data": {
+        "Preference": { "value": "Push — Comments" },
+        "Value": { "value": "On" }
+      }
+    }
+  ]
+}

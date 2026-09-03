@@ -1,0 +1,9 @@
+{
+  "participants": [{ "name": "demo_user" }, { "name": "alice_demo" }],
+  "title": "alice_demo",
+  "messages": [
+    { "sender_name": "alice_demo", "timestamp_ms": 1704067200000, "content": "SECRET should not appear" },
+    { "sender_name": "demo_user", "timestamp_ms": 1704153600000, "content": "also secret" },
+    { "sender_name": "alice_demo", "timestamp_ms": 1704240000000, "content": "third" }
+  ]
+}

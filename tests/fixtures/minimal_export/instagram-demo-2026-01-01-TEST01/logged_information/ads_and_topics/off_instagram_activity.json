@@ -1,0 +1,17 @@
+{
+  "off_instagram_activity_v2": [
+    {
+      "name": "demo-shop.example",
+      "events": [
+        { "id": "1", "type": "PURCHASE" },
+        { "id": "2", "type": "VIEW_CONTENT" }
+      ]
+    },
+    {
+      "name": "news.example",
+      "events": [
+        { "id": "3", "type": "PAGE_VIEW" }
+      ]
+    }
+  ]
+}

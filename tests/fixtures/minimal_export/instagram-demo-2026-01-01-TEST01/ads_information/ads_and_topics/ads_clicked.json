@@ -1,0 +1,16 @@
+{
+  "impressions_history_ads_clicked": [
+    {
+      "string_map_data": {
+        "Author": { "value": "Demo Retail Co" },
+        "Time": { "timestamp": 1706745600 }
+      }
+    },
+    {
+      "string_map_data": {
+        "Author": { "value": "Remarket Labs" },
+        "Time": { "timestamp": 1709251200 }
+      }
+    }
+  ]
+}

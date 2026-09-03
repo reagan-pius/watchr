@@ -11,7 +11,7 @@
   use --no-redact to see raw values.
 
 👤  Your profile info:
-   Username                  me
+   Username                  demo_user
    Name                      ***
    Bio                       fixture account for tests
    Private account           False
@@ -49,38 +49,179 @@
 👻  People you follow who DON'T follow you back (0, export-only — follower list incomplete):
 
 ⏳  Pending follow requests — not yet accepted, excluded above (1):
-   • user_004
+   • dave_demo
 
 🙈  Followers you DON'T follow back (1, export-only — follower list incomplete):
-   • user_003
+   • carol_demo
 
 🤝  Mutuals (3, export-only — follower list incomplete):
    (+1 promoted — confirmed via curation; raw export mutuals: 2)
-   • user_001
-   • user_002
-   • user_005
+   • alice_demo
+   • bob_demo
+   • eve_demo
 
 ── ACTIVITY ─────────────────────────────────────────────
 
+📋  Export inventory (activity):
+   ✓  posts
+   ✓  stories archive
+   ✓  reels
+   ✓  liked posts
+   ✓  liked comments
+   ✓  your comments
+   ✓  profile / account searches
+   ✓  saved posts
+   ✓  story likes
+   ✓  story polls
+
 📸  Posts by month (1 total):
    2023-11  █ 1
-  [!] None of these files exist under your export folder:
-      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/media/stories.json
-      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/content/stories.json
-  [!] File not found: ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/likes/liked_posts.json
-  [!] File not found: ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/likes/liked_comments.json
-  [!] File not found: ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/comments/post_comments_1.json
-  [!] None of these files exist under your export folder:
-      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/logged_information/recent_searches/profile_searches.json
-      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/your_instagram_activity/recent_searches/account_searches.json
+
+📖  Stories in archive (2):
+   2024-01  ██ 2
+
+🎬  Reels (2):
+   2024-01  █ 1
+   2024-02  █ 1
+
+❤️   You've liked 1 posts. Most recent 1:
+   • alice_demo  @ 2024-01-01 00:00
+
+💬  You've liked 2 comments.
+
+🗨️   Top accounts you commented on:
+      2x  alice_demo
+      1x  bob_demo
+
+🔍  Top searched accounts (3 total):
+     2x  alice_demo
+     1x  carol_demo
+
+🔖  Saved items (2). Sample 2:
+   • demo_saved_post  @ 2024-01-01 00:00
+   • another_save  @ 2024-02-01 00:00
+
+✨  Story interactions:
+   Story likes: 3
+   Poll responses: 2
 
 ── SECURITY ─────────────────────────────────────────────
-  [!] None of these files exist under your export folder:
-      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/security_and_login_information/login_and_profile_creation/login_activity.json
-      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/security_and_login_information/login_and_account_creation/login_activity.json
+
+📋  Export inventory (security):
+   ✓  login history
+   ✓  active sessions
+   ✗  dedicated devices file (not in this ZIP)
+   ✓  password change history
+   ✗  email change history (not in this ZIP)
+   ✗  login protection / 2FA signals (not in this ZIP)
+   Note: missing files were omitted from this ZIP — re-request those categories if you need them.
+
+🔐  Login history (3 entries). Most recent 3:
+   2024-01-01 00:00  |  203.0.***.***  |  DemoPhone OS 1.0
+   2024-02-01 00:00  |  203.0.***.***  |  DemoPhone OS 1.0
+   2024-03-01 00:00  |  198.51.***.***  |  DemoTablet OS 2.0
+
+💻  Devices seen in login history:
+     2x  DemoPhone OS 1.0
+     1x  DemoTablet OS 2.0
+
+📱  Active sessions (1):
+   • DemoPhone  —  2024-01-01
+
+🛡  Account security events:
+   Password changes recorded: 1
 
 ── ADS & TRACKING ───────────────────────────────────────
-  [!] None of these files exist under your export folder:
-      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/ads_interests.json
-      • ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/other_categories_used_to_reach_you.json
-  [!] File not found: ~/tests/fixtures/minimal_export/instagram-***-2026-01-01-TEST01/ads_information/instagram_ads_and_businesses/advertisers_using_your_activity_or_information.json
+
+📋  Export inventory (ads & tracking):
+   ✓  advertisers using your activity or information
+   ✓  ads interests
+   ✓  other categories used to reach you
+   ✓  ads viewed
+   ✓  ads clicked
+   ✓  ad preferences
+   ✓  off-Instagram activity
+
+📢  Advertisers who have uploaded your data (5):
+   Audience types:
+      data-file custom audience     4
+      remarketing                   2
+      in-person store visit         2
+   Sample (5 of 5):
+      • Demo Retail Co  [data-file]
+      • Remarket Labs  [data-file, remarketing]
+      • Footfall Brand  [store-visit]
+      • Datafile Only Inc  [data-file]
+      • Omni Target LLC  [data-file, remarketing, store-visit]
+
+🎯  Instagram thinks you're interested in (3 topics):
+   • Demo Photography
+   • Open Source Software
+   • Trail Running
+
+🏷️   Categories Meta uses to reach you (2):
+   • People who like hiking
+   • Tech early adopters
+
+👁  Ads engagement:
+   Viewed: 4  |  Clicked: 2
+   Viewed span:  2024-01 → 2024-04
+   Clicked span: 2024-02 → 2024-03
+   Top advertisers by views:
+         2x  Demo Retail Co
+         1x  Remarket Labs
+         1x  Footfall Brand
+   Top advertisers by clicks:
+         1x  Demo Retail Co
+         1x  Remarket Labs
+
+⚙️   Ad preferences:
+   Topics you're interested in (2):
+      • Cameras
+      • Running shoes
+   Topics you don't want to see (1):
+      • Gambling
+
+🌐  Apps/sites that sent your activity to Meta (2):
+   • demo-shop.example  (2 events)
+   • news.example  (1 events)
+
+── MESSAGES ─────────────────────────────────────────────
+
+📋  Messages (metadata only — message text is never printed):
+   ✓  Root: your_instagram_activity/messages
+   Threads: 2  (inbox 1, requests 1)
+   Messages (count only): 4
+   Attached media files on disk: 0
+
+💬  Largest threads (sample 2 of 2):
+   • [inbox] alice_demo  —  3 msgs, 0 media, 2024-01 → 2024-01
+       participants: demo_user, alice_demo
+   • [requests] stranger  —  1 msgs, 0 media, 2024-01 → 2024-01
+       participants: stranger, demo_user
+   Privacy: Watchr does not print DM bodies. Open message_*.json locally if needed.
+
+── APPS & WEBSITES ──────────────────────────────────────
+
+📋  Export inventory (apps & websites):
+   ✓  apps and websites linked
+   ✓  activity off Meta technologies
+
+🔗  Linked apps / websites (2):
+   • Demo Weather App
+   • Demo Fitness
+
+🌐  Activity off Meta technologies (2):
+   • demo-shop.example  (2 events)
+   • news.example  (1 events)
+
+── CONTACTS ─────────────────────────────────────────────
+
+📋  Export inventory (contacts):
+   ✓  synced contacts
+
+📇  Synced / uploaded contacts (3):
+   Samples are redacted by default (use --no-redact for raw names).
+   • A*** L***
+   • G*** H***
+   • A*** T***

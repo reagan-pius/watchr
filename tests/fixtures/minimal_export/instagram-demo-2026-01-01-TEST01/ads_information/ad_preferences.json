@@ -1,0 +1,9 @@
+{
+  "topics_you_are_interested_in": [
+    { "value": "Cameras" },
+    { "value": "Running shoes" }
+  ],
+  "topics_you_dont_want_to_see": [
+    { "value": "Gambling" }
+  ]
+}

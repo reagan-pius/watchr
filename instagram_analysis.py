@@ -24,17 +24,32 @@ import re
 import sys
 from contextlib import redirect_stdout
 from pathlib import Path
-from collections import Counter
 from datetime import datetime, timezone
 
+from activity.insights import ActivityInsights
+from activity.report import print_activity_report
+from ads.insights import AdsInsights
+from ads.report import print_ads_report
+from apps.insights import AppsInsights
+from apps.report import print_apps_report
 from connections.graph import ConnectionGraph, username_from_connection_entry
 from connections.cleaning import CURATED_FILE_NAME
 from connections.curation_store import migrate_legacy_curation
 from connections.insights import ConnectionsInsights
+from contacts.insights import ContactsInsights
+from contacts.report import print_contacts_report
 from context import AnalyzerContext
 from curate_session import run_curation_session
 from export_paths import resolve_export_dir
+from messages.insights import MessagesInsights
+from messages.report import print_messages_report
+from preferences.insights import PreferencesInsights
+from preferences.report import print_preferences_report
+from security.insights import SecurityInsights
+from security.report import print_security_report
 from setup_check import run_setup_check
+from shopping.insights import ShoppingInsights
+from shopping.report import print_shopping_report
 
 # ─── REDACTION ────────────────────────────────────────────────────────────────
 # Personal details are masked by default so output can be pasted or shared
@@ -129,6 +144,14 @@ def ts(unix: int) -> str:
 
 
 _connections_cache: dict[AnalyzerContext, ConnectionsInsights | None] = {}
+_ads_cache: dict[AnalyzerContext, AdsInsights] = {}
+_activity_cache: dict[AnalyzerContext, ActivityInsights] = {}
+_security_cache: dict[AnalyzerContext, SecurityInsights] = {}
+_messages_cache: dict[AnalyzerContext, MessagesInsights] = {}
+_apps_cache: dict[AnalyzerContext, AppsInsights] = {}
+_contacts_cache: dict[AnalyzerContext, ContactsInsights] = {}
+_shopping_cache: dict[AnalyzerContext, ShoppingInsights] = {}
+_preferences_cache: dict[AnalyzerContext, PreferencesInsights] = {}
 FOLLOWER_SNAPSHOT_FILE_NAME = "followers_snapshot.json"
 
 
@@ -146,6 +169,71 @@ def _connections(ctx: AnalyzerContext) -> ConnectionsInsights | None:
         graph, snapshot, assume_mutual=ctx.assume_mutual
     )
     _connections_cache[ctx] = insights
+    return insights
+
+
+def _ads(ctx: AnalyzerContext) -> AdsInsights:
+    """Compute-once AdsInsights for a run (ADR-0007)."""
+    if ctx in _ads_cache:
+        return _ads_cache[ctx]
+    insights = AdsInsights.build(ctx.base_dir)
+    _ads_cache[ctx] = insights
+    return insights
+
+
+def _activity(ctx: AnalyzerContext) -> ActivityInsights:
+    if ctx in _activity_cache:
+        return _activity_cache[ctx]
+    insights = ActivityInsights.build(ctx.base_dir)
+    _activity_cache[ctx] = insights
+    return insights
+
+
+def _security(ctx: AnalyzerContext) -> SecurityInsights:
+    if ctx in _security_cache:
+        return _security_cache[ctx]
+    insights = SecurityInsights.build(ctx.base_dir)
+    _security_cache[ctx] = insights
+    return insights
+
+
+def _messages(ctx: AnalyzerContext) -> MessagesInsights:
+    if ctx in _messages_cache:
+        return _messages_cache[ctx]
+    insights = MessagesInsights.build(ctx.base_dir)
+    _messages_cache[ctx] = insights
+    return insights
+
+
+def _apps(ctx: AnalyzerContext) -> AppsInsights:
+    if ctx in _apps_cache:
+        return _apps_cache[ctx]
+    insights = AppsInsights.build(ctx.base_dir)
+    _apps_cache[ctx] = insights
+    return insights
+
+
+def _contacts(ctx: AnalyzerContext) -> ContactsInsights:
+    if ctx in _contacts_cache:
+        return _contacts_cache[ctx]
+    insights = ContactsInsights.build(ctx.base_dir)
+    _contacts_cache[ctx] = insights
+    return insights
+
+
+def _shopping(ctx: AnalyzerContext) -> ShoppingInsights:
+    if ctx in _shopping_cache:
+        return _shopping_cache[ctx]
+    insights = ShoppingInsights.build(ctx.base_dir)
+    _shopping_cache[ctx] = insights
+    return insights
+
+
+def _preferences(ctx: AnalyzerContext) -> PreferencesInsights:
+    if ctx in _preferences_cache:
+        return _preferences_cache[ctx]
+    insights = PreferencesInsights.build(ctx.base_dir)
+    _preferences_cache[ctx] = insights
     return insights
 
 
@@ -399,235 +487,41 @@ def close_friends(ctx: AnalyzerContext):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 2. YOUR INSTAGRAM ACTIVITY  ──  posts, likes, comments, searches, stories
+# 2–5. ACTIVITY / SECURITY / ADS / MESSAGES / APPS / CONTACTS
+#     (insight packages — inventory-first reports)
 # ══════════════════════════════════════════════════════════════════════════════
 
-def post_activity(ctx: AnalyzerContext):
-    """When you posted — frequency by year/month."""
-    data = load_first_optional(ctx.base_dir,
-        [
-            "your_instagram_activity/content/posts_1.json",
-            "your_instagram_activity/media/posts_1.json",
-        ]
-    )
-    if not data:
-        return
-    dates = []
-    for post in data:
-        for media in post.get("media", []):
-            if "creation_timestamp" in media:
-                dates.append(datetime.fromtimestamp(media["creation_timestamp"], tz=timezone.utc))
-
-    by_month = Counter(d.strftime("%Y-%m") for d in dates)
-    print(f"\n📸  Posts by month ({len(dates)} total):")
-    for month, count in sorted(by_month.items()):
-        bar = "█" * count
-        print(f"   {month}  {bar} {count}")
+def activity_report(ctx: AnalyzerContext) -> None:
+    print_activity_report(_activity(ctx), limit=ctx.ads_limit)
 
 
-def liked_posts(ctx: AnalyzerContext):
-    """Posts you've liked — most recent first."""
-    data = load(ctx.base_dir,"your_instagram_activity/likes/liked_posts.json")
-    if not data:
-        return
-    if isinstance(data, list):
-        likes = data
-    else:
-        likes = data.get("likes_media_likes", []) or []
-    print(f"\n❤️   You've liked {len(likes)} posts. Most recent 20:")
-    for entry in likes[:20]:
-        label, t_raw = "?", None
-        if entry.get("string_list_data"):
-            d = entry["string_list_data"][0]
-            label = d.get("value") or d.get("href", "?")
-            t_raw = d.get("timestamp")
-        else:
-            for lv in entry.get("label_values", []):
-                if lv.get("label") == "URL":
-                    label = lv.get("value") or lv.get("href", "?")
-                    break
-            t_raw = entry.get("timestamp")
-        when = ts(t_raw) if t_raw else "?"
-        print(f"   • {label}  @ {when}")
+def security_report(ctx: AnalyzerContext) -> None:
+    print_security_report(_security(ctx), limit=ctx.ads_limit, redact=ctx.redact)
 
 
-def liked_comments(ctx: AnalyzerContext):
-    data = load(ctx.base_dir,"your_instagram_activity/likes/liked_comments.json")
-    if not data:
-        return
-    likes = data.get("likes_comment_likes", [])
-    print(f"\n💬  You've liked {len(likes)} comments.")
+def ads_and_tracking(ctx: AnalyzerContext) -> None:
+    """Inventory-first ads & tracking report (ADR-0007)."""
+    print_ads_report(_ads(ctx), limit=ctx.ads_limit)
 
 
-def your_comments(ctx: AnalyzerContext):
-    """Your most commented-on accounts."""
-    data = load(ctx.base_dir,"your_instagram_activity/comments/post_comments_1.json")
-    if not data:
-        return
-    targets = []
-    for entry in data:
-        for d in entry.get("string_map_data", {}).values():
-            pass  # structure varies — adapt as needed
-        # Try common structure
-        if entry.get("string_list_data"):
-            targets.append(entry["string_list_data"][0].get("value", ""))
-
-    top = Counter(targets).most_common(15)
-    print(f"\n🗨️   Top accounts you commented on:")
-    for account, count in top:
-        if account:
-            print(f"   {count:>4}x  {account}")
+def messages_report(ctx: AnalyzerContext) -> None:
+    print_messages_report(_messages(ctx), limit=ctx.ads_limit)
 
 
-def search_history(ctx: AnalyzerContext):
-    """Your most searched terms/accounts."""
-    data = load_first(ctx.base_dir,
-        [
-            "logged_information/recent_searches/profile_searches.json",
-            "your_instagram_activity/recent_searches/account_searches.json",
-        ]
-    )
-    if not data:
-        return
-    searches = data.get("searches_user", [])
-    terms = []
-    for s in searches:
-        t = (s.get("title") or "").strip()
-        if t:
-            terms.append(t)
-            continue
-        for d in s.get("string_map_data", {}).values():
-            if d.get("value"):
-                terms.append(d["value"])
-        u = username_from_connection_entry(s)
-        if u:
-            terms.append(u)
-    top = Counter(terms).most_common(20)
-    print(f"\n🔍  Top searched accounts ({len(searches)} total):")
-    for term, count in top:
-        print(f"   {count:>3}x  {term}")
+def apps_report(ctx: AnalyzerContext) -> None:
+    print_apps_report(_apps(ctx), limit=ctx.ads_limit)
 
 
-def story_activity(ctx: AnalyzerContext):
-    data = load_first(ctx.base_dir,
-        [
-            "your_instagram_activity/media/stories.json",
-            "your_instagram_activity/content/stories.json",
-        ]
-    )
-    if not data:
-        return
-    stories = data.get("ig_stories", [])
-    print(f"\n📖  You have {len(stories)} stories in your archive.")
-    by_month = Counter(
-        datetime.fromtimestamp(s["creation_timestamp"], tz=timezone.utc).strftime("%Y-%m")
-        for s in stories if "creation_timestamp" in s
-    )
-    for month, count in sorted(by_month.items()):
-        print(f"   {month}  {'█' * count} {count}")
+def contacts_report(ctx: AnalyzerContext) -> None:
+    print_contacts_report(_contacts(ctx), limit=ctx.ads_limit, redact=ctx.redact)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# 3. SECURITY & LOGIN  ──  login history, devices
-# ══════════════════════════════════════════════════════════════════════════════
-
-def login_activity(ctx: AnalyzerContext):
-    data = load_first(ctx.base_dir,
-        [
-            "security_and_login_information/login_and_profile_creation/login_activity.json",
-            "security_and_login_information/login_and_account_creation/login_activity.json",
-        ]
-    )
-    if not data:
-        return
-    logins = data.get("account_history_login_history", [])
-    print(f"\n🔐  Login history ({len(logins)} entries). Most recent 15:")
-    for entry in logins[:15]:
-        d = entry.get("string_map_data", {})
-        time_ = d.get("Time", {}).get("timestamp")
-        device = (
-            d.get("User agent", d.get("User Agent", {})).get("value") or "unknown device"
-        )
-        ip = d.get("IP address", d.get("IP Address", {})).get("value", "?")
-        if ctx.redact:
-            ip = _mask_ip(ip)
-        if time_:
-            print(f"   {ts(time_)}  |  {ip}  |  {device[:60]}")
+def shopping_report(ctx: AnalyzerContext) -> None:
+    print_shopping_report(_shopping(ctx), limit=ctx.ads_limit)
 
 
-def active_sessions(ctx: AnalyzerContext):
-    data = load_first_optional(ctx.base_dir,
-        [
-            "security_and_login_information/login_and_profile_creation/active_sessions.json",
-            "security_and_login_information/login_and_account_creation/active_sessions.json",
-        ]
-    )
-    if not data:
-        return
-    sessions = data.get("account_history_active_sessions", [])
-    print(f"\n📱  Active sessions ({len(sessions)}):")
-    for s in sessions:
-        d = s.get("string_map_data", {})
-        print(f"   • {d.get('Device', {}).get('value','?')}  —  {d.get('Last Seen', {}).get('value','?')}")
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# 4. ADS INFORMATION  ──  who targets you, ad interests
-# ══════════════════════════════════════════════════════════════════════════════
-
-def ad_interests(ctx: AnalyzerContext):
-    data = load_first(ctx.base_dir,
-        [
-            "ads_information/instagram_ads_and_businesses/ads_interests.json",
-            "ads_information/instagram_ads_and_businesses/other_categories_used_to_reach_you.json",
-        ]
-    )
-    if not data:
-        return
-    interests = data.get("inferred_data_ig_interest", [])
-    if interests:
-        print(f"\n🎯  Instagram thinks you're interested in ({len(interests)} topics):")
-        for i in interests:
-            print(f"   • {i.get('string_map_data', {}).get('Interest', {}).get('value','?')}")
-        return
-    print("\n🎯  Categories Meta uses to reach you:")
-    for lv in data.get("label_values", []):
-        if lv.get("label") != "Name":
-            continue
-        for item in lv.get("vec", []):
-            v = item.get("value")
-            if v:
-                print(f"   • {v}")
-
-
-def advertisers_with_your_info(ctx: AnalyzerContext):
-    data = load(ctx.base_dir,"ads_information/instagram_ads_and_businesses/advertisers_using_your_activity_or_information.json")
-    if not data:
-        return
-    advertisers = data.get("ig_custom_audiences_all_types", [])
-    print(f"\n📢  Advertisers who have uploaded your data ({len(advertisers)}):")
-    for a in advertisers[:30]:
-        print(f"   • {a.get('advertiser_name','?')}")
-    if len(advertisers) > 30:
-        print(f"   ... and {len(advertisers)-30} more")
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# 5. LOGGED INFORMATION  ──  off-Instagram activity
-# ══════════════════════════════════════════════════════════════════════════════
-
-def off_instagram_activity(ctx: AnalyzerContext):
-    data = _read_json_file(ctx.base_dir / "logged_information/ads_and_topics/off_instagram_activity.json")
-    if not data:
-        return
-    apps = data.get("off_instagram_activity_v2", [])
-    print(f"\n🌐  Apps/sites that sent your activity to Meta ({len(apps)}):")
-    for app in apps[:20]:
-        name   = app.get("name", "?")
-        events = app.get("events", [])
-        print(f"   • {name}  ({len(events)} events)")
-    if len(apps) > 20:
-        print(f"   ... and {len(apps)-20} more")
+def preferences_report(ctx: AnalyzerContext) -> None:
+    print_preferences_report(_preferences(ctx), limit=ctx.ads_limit)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -652,7 +546,20 @@ def profile_info(ctx: AnalyzerContext):
 # RUN ALL (or call individual functions above)
 # ══════════════════════════════════════════════════════════════════════════════
 
-_REPORT_SECTIONS = frozenset({"profile", "connections", "activity", "security", "ads"})
+_REPORT_SECTIONS = frozenset(
+    {
+        "profile",
+        "connections",
+        "activity",
+        "security",
+        "ads",
+        "messages",
+        "apps",
+        "contacts",
+        "shopping",
+        "preferences",
+    }
+)
 
 
 def _parse_sections(raw: list[str]) -> set[str]:
@@ -705,23 +612,35 @@ def run_reports(ctx: AnalyzerContext, sections: set[str]) -> None:
 
     if "activity" in sections:
         print("\n── ACTIVITY ─────────────────────────────────────────────")
-        post_activity(ctx)
-        story_activity(ctx)
-        liked_posts(ctx)
-        liked_comments(ctx)
-        your_comments(ctx)
-        search_history(ctx)
+        activity_report(ctx)
 
     if "security" in sections:
         print("\n── SECURITY ─────────────────────────────────────────────")
-        login_activity(ctx)
-        active_sessions(ctx)
+        security_report(ctx)
 
     if "ads" in sections:
         print("\n── ADS & TRACKING ───────────────────────────────────────")
-        ad_interests(ctx)
-        advertisers_with_your_info(ctx)
-        off_instagram_activity(ctx)
+        ads_and_tracking(ctx)
+
+    if "messages" in sections:
+        print("\n── MESSAGES ─────────────────────────────────────────────")
+        messages_report(ctx)
+
+    if "apps" in sections:
+        print("\n── APPS & WEBSITES ──────────────────────────────────────")
+        apps_report(ctx)
+
+    if "contacts" in sections:
+        print("\n── CONTACTS ─────────────────────────────────────────────")
+        contacts_report(ctx)
+
+    if "shopping" in sections:
+        print("\n── SHOPPING ─────────────────────────────────────────────")
+        shopping_report(ctx)
+
+    if "preferences" in sections:
+        print("\n── PREFERENCES ──────────────────────────────────────────")
+        preferences_report(ctx)
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -754,7 +673,8 @@ def main(argv: list[str] | None = None) -> None:
         action="append",
         default=None,
         metavar="NAME",
-        help="report section: profile, connections, activity, security, ads, or all "
+        help="report section: profile, connections, activity, security, ads, "
+        "messages, apps, contacts, shopping, preferences, or all "
         "(repeatable, comma-separated; default: all)",
     )
     parser.add_argument(
@@ -790,6 +710,14 @@ def main(argv: list[str] | None = None) -> None:
         "curated_nonfollowers.txt",
     )
     parser.add_argument(
+        "--ads-limit",
+        type=int,
+        default=30,
+        metavar="N",
+        help="max sample rows for ads/activity/messages/apps/contacts lists "
+        "(default: 30; 0 = all)",
+    )
+    parser.add_argument(
         "--no-redact",
         action="store_true",
         help="show email, phone number, date of birth and login IPs unmasked",
@@ -808,9 +736,18 @@ def main(argv: list[str] | None = None) -> None:
         curated_path=Path(args.curated).expanduser() if args.curated else None,
         assume_mutual=args.assume_mutual,
         project_root=Path(__file__).resolve().parent,
+        ads_limit=max(0, args.ads_limit),
     )
     # Avoid stale data when main() is called multiple times in-process (tests/library).
     _connections_cache.clear()
+    _ads_cache.clear()
+    _activity_cache.clear()
+    _security_cache.clear()
+    _messages_cache.clear()
+    _apps_cache.clear()
+    _contacts_cache.clear()
+    _shopping_cache.clear()
+    _preferences_cache.clear()
 
     # One-time legacy transition: copy curated state that used to live next to
     # the repository into this export's own store (ADR-0002 addendum). Skipped

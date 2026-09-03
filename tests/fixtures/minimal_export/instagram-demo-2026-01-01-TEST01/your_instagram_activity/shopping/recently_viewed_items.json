@@ -1,0 +1,18 @@
+{
+  "shopping_recently_viewed_items": [
+    {
+      "string_map_data": {
+        "Product Name": { "value": "Demo Running Shoes" },
+        "Merchant": { "value": "Demo Outdoor Co" }
+      }
+    },
+    {
+      "string_map_data": {
+        "Product Name": { "value": "Demo Camera Strap" }
+      }
+    },
+    {
+      "title": "Demo Water Bottle"
+    }
+  ]
+}

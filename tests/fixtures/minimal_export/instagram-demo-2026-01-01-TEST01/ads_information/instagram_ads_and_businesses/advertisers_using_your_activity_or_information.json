@@ -1,0 +1,34 @@
+{
+  "ig_custom_audiences_all_types": [
+    {
+      "advertiser_name": "Demo Retail Co",
+      "has_data_file_custom_audience": true,
+      "has_remarketing_custom_audience": false,
+      "has_in_person_store_visit": false
+    },
+    {
+      "advertiser_name": "Remarket Labs",
+      "has_data_file_custom_audience": true,
+      "has_remarketing_custom_audience": true,
+      "has_in_person_store_visit": false
+    },
+    {
+      "advertiser_name": "Footfall Brand",
+      "has_data_file_custom_audience": false,
+      "has_remarketing_custom_audience": false,
+      "has_in_person_store_visit": true
+    },
+    {
+      "advertiser_name": "Datafile Only Inc",
+      "has_data_file_custom_audience": true,
+      "has_remarketing_custom_audience": false,
+      "has_in_person_store_visit": false
+    },
+    {
+      "advertiser_name": "Omni Target LLC",
+      "has_data_file_custom_audience": true,
+      "has_remarketing_custom_audience": true,
+      "has_in_person_store_visit": true
+    }
+  ]
+}

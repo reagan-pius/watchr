@@ -1,0 +1,11 @@
+{
+  "label_values": [
+    {
+      "label": "Name",
+      "vec": [
+        { "value": "People who like hiking" },
+        { "value": "Tech early adopters" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "shopping_wishlist_items": [
+    {
+      "string_map_data": {
+        "Product Name": { "value": "Demo Tripod" }
+      }
+    },
+    {
+      "string_map_data": {
+        "Product Name": { "value": "Demo Backpack" }
+      }
+    }
+  ]
+}

@@ -6,46 +6,23 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+from activity.paths import ACTIVITY_FILE_GROUPS
+from ads.paths import ADS_FILE_GROUPS
+from apps.paths import APPS_FILE_GROUPS
 from connections.graph import (
     ConnectionGraph,
     _load_follower_entries,
     _load_following_entries,
     _load_app_follower_count,
-    _read_json_file,
 )
+from contacts.paths import CONTACTS_FILE_GROUPS
+from export_inventory import FileStatus, build_inventory
+from messages.paths import MESSAGE_ROOT_CANDIDATES
+from preferences.paths import PREFERENCES_FILE_GROUPS
+from security.paths import SECURITY_FILE_GROUPS
+from shopping.paths import SHOPPING_FILE_GROUPS
 
 MIN_PYTHON = (3, 10)
-
-OPTIONAL_REPORT_FILES = [
-    (
-        "posts",
-        [
-            "your_instagram_activity/content/posts_1.json",
-            "your_instagram_activity/media/posts_1.json",
-        ],
-    ),
-    (
-        "stories",
-        [
-            "your_instagram_activity/media/stories.json",
-            "your_instagram_activity/content/stories.json",
-        ],
-    ),
-    (
-        "login history",
-        [
-            "security_and_login_information/login_and_profile_creation/login_activity.json",
-            "security_and_login_information/login_and_account_creation/login_activity.json",
-        ],
-    ),
-    (
-        "ad interests",
-        [
-            "ads_information/instagram_ads_and_businesses/ads_interests.json",
-            "ads_information/instagram_ads_and_businesses/other_categories_used_to_reach_you.json",
-        ],
-    ),
-]
 
 
 @dataclass
@@ -128,11 +105,29 @@ def run_setup_check(export_dir: Path) -> int:
         lines.append("✗  Could not build connection graph from export files")
         fatal = True
 
+    def add_group(title: str, groups) -> None:
+        lines.append("")
+        lines.append(f"{title}:")
+        for item in build_inventory(export_dir, groups):
+            mark = (
+                "✓"
+                if item.status == FileStatus.PRESENT
+                else ("·" if item.status == FileStatus.EMPTY else "✗")
+            )
+            lines.append(f"{mark}  {item.label}")
+
+    add_group("Activity files", ACTIVITY_FILE_GROUPS)
+    add_group("Security files", SECURITY_FILE_GROUPS)
+    add_group("Ads & tracking files", ADS_FILE_GROUPS)
+    add_group("Apps & websites files", APPS_FILE_GROUPS)
+    add_group("Contacts files", CONTACTS_FILE_GROUPS)
+    add_group("Shopping files", SHOPPING_FILE_GROUPS)
+    add_group("Preferences files", PREFERENCES_FILE_GROUPS)
+
     lines.append("")
-    lines.append("Optional report sections:")
-    for label, rel_paths in OPTIONAL_REPORT_FILES:
-        found = any((export_dir / rel).is_file() for rel in rel_paths)
-        lines.append(f"{_status(found)}  {label}")
+    lines.append("Messages:")
+    msg_ok = any((export_dir / rel).is_dir() for rel in MESSAGE_ROOT_CANDIDATES)
+    lines.append(f"{_status(msg_ok)}  messages root (inbox / requests)")
 
     lines.append("")
     if fatal:

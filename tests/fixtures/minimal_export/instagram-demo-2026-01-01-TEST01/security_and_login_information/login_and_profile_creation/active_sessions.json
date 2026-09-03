@@ -1,0 +1,10 @@
+{
+  "account_history_active_sessions": [
+    {
+      "string_map_data": {
+        "Device": { "value": "DemoPhone" },
+        "Last Seen": { "value": "2024-01-01" }
+      }
+    }
+  ]
+}

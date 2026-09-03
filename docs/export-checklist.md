@@ -7,7 +7,16 @@ Use this when requesting a download from Meta so the analyzer has the files it n
 1. Open **Instagram → Settings → Accounts Centre → Your information and permissions → Download your information**.
 2. Choose **Some of your information** (or **All** if you want every report section).
 3. Under **Connections**, enable **Followers and following**.
-4. Enable other sections you care about (activity, security, ads) — missing sections are skipped silently.
+4. For a full Watchr run, also enable:
+   - **Ads and topics** / Instagram ads and businesses (advertisers, interests, ads viewed/clicked)
+   - **Your Instagram activity** (posts, likes, comments, searches, saved, story interactions)
+   - **Messages** (metadata only in Watchr — bodies never printed)
+   - **Security and login information**
+   - **Logged information** (off-Instagram activity, when available)
+   - **Apps and websites off of Instagram**
+   - **Contacts** (optional; samples redacted by default)
+   - **Shopping** (recently viewed / wishlist)
+   - **Preferences** (topics, notifications, comments settings)
 5. Set date range to **All time**.
 6. Choose format **JSON** (not HTML — both arrive as `.zip` files).
 7. Submit and wait for the email (often 5–30 minutes).
@@ -31,6 +40,7 @@ Use this when requesting a download from Meta so the analyzer has the files it n
 | Follower files | One or more `connections/followers_and_following/followers_*.json` |
 | Following file | `following.json` (or `following_1.json`, …) |
 | Raw counts | `--check` shows entry counts; compare to your app if insights are present |
+| Ads files | `--check` lists advertisers / viewed / clicked / off-IG as ✓ when present |
 | Format | Files contain `.json`, not `.html` |
 
 ## Common mistakes
@@ -39,3 +49,4 @@ Use this when requesting a download from Meta so the analyzer has the files it n
 - **Wrong section** — forgot **Followers and following**; connection reports fail.
 - **Only opened `followers_1.json`** — large accounts split across `followers_2.json`, …; the tool merges them, but all parts must be in the folder.
 - **Expecting app profile counts** — the export list and the app headline number often differ. See [counts-explained.md](counts-explained.md).
+- **Empty Ads section** — you did not request ads categories; inventory will show ✗. See [ads-explained.md](ads-explained.md).

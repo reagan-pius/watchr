@@ -1,0 +1,19 @@
+{
+  "inferred_data_ig_interest": [
+    {
+      "string_map_data": {
+        "Interest": { "value": "Demo Photography" }
+      }
+    },
+    {
+      "string_map_data": {
+        "Interest": { "value": "Open Source Software" }
+      }
+    },
+    {
+      "string_map_data": {
+        "Interest": { "value": "Trail Running" }
+      }
+    }
+  ]
+}

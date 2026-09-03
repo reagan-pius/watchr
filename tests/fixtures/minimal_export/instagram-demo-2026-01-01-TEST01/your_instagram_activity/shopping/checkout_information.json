@@ -1,0 +1,9 @@
+{
+  "shopping_checkout_information": [
+    {
+      "string_map_data": {
+        "Product Name": { "value": "Demo Socks (order)" }
+      }
+    }
+  ]
+}
